@@ -68,6 +68,25 @@
         <option value="milho">Milho</option>
         <option value="batata">Batata-doce</option>
       </select>
+      <button onclick="exportarCSV()">📥 Exportar dados CSV</button>
+
+<script>
+function exportarCSV() {
+  const tipo = document.getElementById("cultura").value;
+  const { semanas, altura, biomassa } = dadosCulturas[tipo];
+  let csv = 'semana,altura_cm,biomassa_kg\n';
+  semanas.forEach((s,i) => {
+    csv += `${s},${altura[i]},${biomassa[i]}\n`;
+  });
+  const blob = new Blob([csv], {type: 'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = tipo + '_dados.csv';
+  link.click();
+  URL.revokeObjectURL(url);
+}
+</script>
     </div>
     <div>
       <label><input type="checkbox" id="comparar" onchange="atualizarGrafico()"> Comparar todas as culturas</label>
